@@ -73,7 +73,6 @@ project "Hazel"
 			"HZ_BUILD_DLL",
 			"GLFW_INCLUDE_NONE"
 		}
-
 		postbuildcommands
 		{
 			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\""),
@@ -123,6 +122,7 @@ project "Sandbox"
 	{
 		"Hazel/vendor/spdlog/include",
 		"Hazel/src",
+		"Hazel/vendor",
 		"%{IncludeDir.glm}"
 	}
 
