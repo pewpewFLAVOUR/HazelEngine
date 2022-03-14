@@ -26,9 +26,11 @@ group "Dependencies"
 group ""
 project "Hazel"
 	location "Hazel"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
+
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -42,6 +44,11 @@ project "Hazel"
 			"%{prj.name}/src/**.cpp",
 			"%{prj.name}/vendor/glm/glm/**.hpp",
 			"%{prj.name}/vendor/glm/glm/**.inl"
+	}
+
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS"
 	}
 
 	includedirs
@@ -63,7 +70,7 @@ project "Hazel"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
+
 		--staticruntime "On"
 		systemversion "latest"
 
@@ -73,30 +80,26 @@ project "Hazel"
 			"HZ_BUILD_DLL",
 			"GLFW_INCLUDE_NONE"
 		}
-		postbuildcommands
-		{
-			("{COPY} %{cfg.buildtarget.relpath} \"../bin/" .. outputdir .. "/Sandbox/\""),
-		}
 		
 	
 	filter "configurations:Debug"
 		defines "HZ_DEBUG"
 		--buildoptions "/MDd"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 
 	filter "configurations:Release"
 		defines "HZ_Release"
 		--buildoptions "/MD"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "HZ_DIST"
 		--buildoptions "/MD"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	--filter { "system:windows", "configurations:Debug"} -- Added from the help of Cherno's Discord!!! : on Sandbox too
     --    buildoptions "/MDd"
@@ -107,7 +110,8 @@ project "Sandbox"
 	location "Sandbox"
 	kind "ConsoleApp"
 	language "C++"
-	staticruntime "off"
+	cppdialect "C++17"
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -132,7 +136,6 @@ project "Sandbox"
 	}
 
 	filter "system:windows"
-		cppdialect "C++17"
 		--staticruntime "On"
 		systemversion "latest"
 
@@ -146,20 +149,20 @@ project "Sandbox"
 		defines "HZ_DEBUG"
 		--buildoptions "/MDd"
 		runtime "Debug"
-		symbols "On"
+		symbols "on"
 
 
 	filter "configurations:Release"
 		defines "HZ_Release"
 		--buildoptions "/MD"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "HZ_DIST"
 		--buildoptions "/MD"
 		runtime "Release"
-		optimize "On"
+		optimize "on"
 
 	--filter { "system:windows", "configurations:Debug"}
     --    buildoptions "/MDd"
